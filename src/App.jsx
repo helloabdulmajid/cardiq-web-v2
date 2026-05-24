@@ -5,8 +5,43 @@ import {
   Sparkles,
 
 } from "lucide-react";
+import { useState } from "react";
+import { searchCards } from "./api/searchApi";
 
 function App() {
+  const [keyword, setKeyword] = useState("");
+
+const [results, setResults] = useState([]);
+
+const [loading, setLoading] = useState(false);
+
+const [error, setError] = useState("");
+const handleSearch = async () => {
+
+    if (!keyword.trim()) return;
+
+    try {
+
+        setLoading(true);
+
+        setError("");
+
+        const response = await searchCards(keyword);
+
+        setResults(response.data || []);
+
+    } catch (err) {
+
+        setError("Failed to fetch results");
+
+        console.log(err);
+
+    } finally {
+
+        setLoading(false);
+
+    }
+};
 
   return (
 
@@ -91,23 +126,100 @@ function App() {
 
         <div className="mt-12 flex flex-col md:flex-row gap-4 justify-center">
 
-          <input
-            type="text"
-            placeholder="Search Amazon, Swiggy, Fuel..."
-            className="w-full md:w-[500px] bg-zinc-900 border border-zinc-700 rounded-xl px-5 py-4 outline-none focus:border-white"
-          />
+         <input
+    type="text"
+    value={keyword}
+    onChange={(e) => setKeyword(e.target.value)}
+    placeholder="Search Amazon, Swiggy, Fuel..."
+    className="w-full md:w-[500px] bg-zinc-900 border border-zinc-700 rounded-xl px-5 py-4 outline-none focus:border-white"
+/>
 
-          <button className="bg-white text-black px-6 py-4 rounded-xl font-semibold hover:bg-zinc-300 transition flex items-center justify-center gap-2">
+          <button
+    onClick={handleSearch}
+    className="bg-white text-black px-6 py-4 rounded-xl font-semibold hover:bg-zinc-300 transition flex items-center justify-center gap-2"
+>
 
-            <Search size={18} />
+    <Search size={18} />
 
-            Search
+    {loading ? "Searching..." : "Search"}
 
-          </button>
+</button>
 
         </div>
 
       </section>
+      {/* Results */}
+
+<div className="mt-16 max-w-4xl mx-auto space-y-6">
+
+    {error && (
+
+        <div className="text-red-400">
+            {error}
+        </div>
+
+    )}
+
+    {results.map((card, index) => (
+
+        <div
+            key={index}
+            className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 text-left"
+        >
+
+            <div className="flex items-center justify-between">
+
+                <div>
+
+                    <h2 className="text-2xl font-bold">
+                        {card.cardName}
+                    </h2>
+
+                    <p className="text-zinc-400 mt-2">
+                        {card.offerTitle}
+                    </p>
+
+                </div>
+
+                <div className="text-right">
+
+                    <div className="text-green-400 text-2xl font-bold">
+
+                        ₹{card.estimatedSavings}
+
+                    </div>
+
+                    <div className="text-sm text-zinc-500">
+
+                        Estimated Savings
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+
+                <span className="bg-black px-3 py-1 rounded-full text-sm border border-zinc-700">
+                    {card.merchantName}
+                </span>
+
+                <span className="bg-black px-3 py-1 rounded-full text-sm border border-zinc-700">
+                    {card.rewardType}
+                </span>
+
+                <span className="bg-black px-3 py-1 rounded-full text-sm border border-zinc-700">
+                    {card.offerType}
+                </span>
+
+            </div>
+
+        </div>
+
+    ))}
+
+</div>
 
     </div>
   );
