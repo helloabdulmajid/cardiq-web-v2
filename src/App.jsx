@@ -390,6 +390,17 @@ function App() {
                   {card.offerTitle}
 
                 </p>
+                {/* Cashback Percentage */}
+
+<div className="mt-3">
+
+    <span className="text-emerald-400 text-2xl font-bold">
+
+        {card.value}% Cashback
+
+    </span>
+
+</div>
 
               </div>
 
@@ -411,7 +422,7 @@ function App() {
 
                   <span>
 
-                    {card.estimatedSavings || 0}
+                   {card.estimatedSavings?.toFixed(0) || 0}
 
                   </span>
 
@@ -474,6 +485,12 @@ function App() {
                 {card.offerType}
 
               </span>
+
+              <span className="px-4 py-1 rounded-full border border-zinc-700 text-sm">
+
+    {card.network}
+
+</span>
 
             </div>
 
