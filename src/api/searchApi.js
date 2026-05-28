@@ -3,6 +3,7 @@
 // ==============================
 
 import axios from "axios";
+import { data } from "react-router-dom";
 
 
 
@@ -31,7 +32,7 @@ export const searchCards = async (keyword, amount) => {
             }
         }
     );
-
+// console.log(response.data)
     return response.data;
 };
 
