@@ -66,14 +66,28 @@ function SearchCard({
 
     {/* CARD IMAGE */}
 
-    <img
+    {/* <img
       src={
         card.imageUrl ||
         "https://placehold.co/300x190/18181b/ffffff?text=CARDIQ"
       }
       alt={card.cardName}
       className="relative w-[220px] rounded-2xl border border-zinc-700 shadow-2xl hover:scale-105 transition duration-300"
-    />
+    /> */}
+
+    <img
+  src={
+    card.imageUrl ||
+    "https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=500&q=80" // High-quality credit card placeholder
+  }
+  alt={card.cardName}
+  onError={(e) => {
+    // If the image link fails, switch to a clean placeholder instantly
+    e.target.onerror = null; 
+    e.target.src = "https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=500&q=80";
+  }}
+  className="relative w-[220px] rounded-2xl border border-zinc-700 shadow-2xl hover:scale-105 transition duration-300"
+/>
 
   </div>
 

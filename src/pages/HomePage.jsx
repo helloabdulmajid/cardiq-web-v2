@@ -13,6 +13,7 @@ import HeroSection from "../components/hero/HeroSection";
 import SearchResults from "../components/search/SearchResults";
 
 import EmptyState from "../components/search/EmptyState";
+import Footer from "../components/layout/Footer";
 
 // ==============================
 // IMPORTS END
@@ -151,6 +152,8 @@ function HomePage() {
           )}
 
       </div>
+
+      <Footer/>
     </div>
   );
 }
